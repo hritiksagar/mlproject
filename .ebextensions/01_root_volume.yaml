@@ -1,0 +1,17 @@
+Resources:
+  AWSEBAutoScalingLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: !Sub "${AWSEBEnvironmentName}-LaunchTemplate"
+      LaunchTemplateData:
+        # ← attach the EB EC2 role so you don’t get “must have instance profile” errors
+        IamInstanceProfile:
+          Name: aws-elasticbeanstalk-ec2-role
+
+        # ← your enlarged root volume
+        BlockDeviceMappings:
+          - DeviceName: /dev/xvda
+            Ebs:
+              VolumeSize: 100
+              VolumeType: gp3
+              Encrypted: true
