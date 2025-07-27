@@ -1,0 +1,20 @@
+Resources:
+  AWSEBAutoScalingLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      # name your CF launch‑template after the EB env
+      LaunchTemplateName:
+        Fn::Sub: "${AWSEBEnvironmentName}-LaunchTemplate"
+
+      LaunchTemplateData:
+        # attach the EC2 instance profile so it can actually start
+        IamInstanceProfile:
+          Name: aws-elasticbeanstalk-ec2-role
+
+        # overwrite the root‐disk mapping to 100 GiB, gp3, encrypted
+        BlockDeviceMappings:
+          - DeviceName: "/dev/xvda"
+            Ebs:
+              VolumeSize: 100
+              VolumeType: gp3
+              Encrypted: true
